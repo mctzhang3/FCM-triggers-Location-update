@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "62426135892",
+    "project_id": "fcm-w-location",
+    "storage_bucket": "fcm-w-location.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62426135892:android:069fab01c3d349a74c9cc1",
+        "android_client_info": {
+          "package_name": "com.mzhang.locationwfcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62426135892-736aomflncjqqpvjj0p1oivrml0lpfat.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mzhang.locationwfcm",
+            "certificate_hash": "2e9674f951122204076ae46cab1d6eae34bc9e93"
+          }
+        },
+        {
+          "client_id": "62426135892-g5o6a03meb54jc09sk9ke35mdf29lr0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqtYfNAEwrJpHWvBh5qG-8wDZct3lnAf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62426135892-g5o6a03meb54jc09sk9ke35mdf29lr0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
