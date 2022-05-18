@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/locationUpdateFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -24,5 +24,26 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationUpdateFragment"
+        android:name="com.mzhang.locationwfcm.mainEntry.LocationUpdateFragment"
+        android:label="LocationUpdateFragment"
+        tools:layout="@layout/fragment_location_update">
+        <action
+            android:id="@+id/action_locationUpdateFragment_to_permissionRequestFragment"
+            app:destination="@id/permissionRequestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/permissionRequestFragment"
+        android:name="com.mzhang.locationwfcm.locationservice.permissions.PermissionRequestFragment"
+        android:label="PermissionRequestFragment"
+        tools:layout="@layout/fragment_permission_request">
+        <argument
+            android:name="type"
+            app:argType="com.mzhang.locationwfcm.locationservice.permissions.PermissionRequestType"/>
+        <action
+            android:id="@+id/action_permissionRequestFragment_to_locationUpdateFragment"
+            app:destination="@id/locationUpdateFragment" />
     </fragment>
 </navigation>

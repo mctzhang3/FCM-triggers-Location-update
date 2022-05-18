@@ -10,7 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.mzhang.locationwfcm.R
 import com.mzhang.locationwfcm.databinding.ActivityLocationHomeBinding
 
-class LocationHomeActivity : AppCompatActivity() {
+class LocationHomeActivity : AppCompatActivity(){
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityLocationHomeBinding
