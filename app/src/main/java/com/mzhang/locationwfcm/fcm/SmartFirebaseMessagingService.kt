@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.mzhang.locationwfcm.MainActivity
 import com.mzhang.locationwfcm.R
+import com.mzhang.locationwfcm.locationservice.MyLocationManager
 
 class SmartFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -39,6 +40,9 @@ class SmartFirebaseMessagingService : FirebaseMessagingService() {
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
+
+            val myLocationManager = MyLocationManager.getInstance(this)
+            myLocationManager.startLocationUpdates()
 
 //            if (/* Check if data needs to be processed by long running job */ true) {
 //                // For long-running tasks (10 seconds or more) use WorkManager.

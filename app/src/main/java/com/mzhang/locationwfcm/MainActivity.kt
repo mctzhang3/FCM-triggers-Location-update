@@ -1,39 +1,79 @@
 package com.mzhang.locationwfcm
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.mzhang.locationwfcm.databinding.ActivityMainBinding
 import com.mzhang.locationwfcm.fcm.FcmUtils
+import com.mzhang.locationwfcm.locationservice.MyLocationManager
+import com.mzhang.locationwfcm.locationservice.permissions.PermissionsRequestor
+import com.mzhang.locationwfcm.locationservice.permissions.PermissionsRequestor.ResultListener
+
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var permissionsRequestor: PermissionsRequestor
+    private var startLocation = false
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var myLocationManager: MyLocationManager
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
+        myLocationManager = MyLocationManager.getInstance(this)
         // setup FCM push notification
         FcmUtils.addFcmTokenCompleteListener()
+
+        handleAndroidPermissions()
+        myLocationManager.receivingLocationUpdates.observe(
+            this
+        ) { receiving ->
+            updateStartOrStopButtonState(receiving)
+        }
     }
 
-//    private fun addFcmTokenCompleteListener() {
-//        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-//                return@OnCompleteListener
-//            }
-//
-//            // Get new FCM registration token
-//            val token = task.result
-//
-//            // Log and toast
-//            val msg = getString(R.string.msg_token_fmt, token)
-//            Log.d(TAG, msg)
-//            Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
-//        })
-//    }
+    private fun updateStartOrStopButtonState(receivingLocation: Boolean) {
+        if (receivingLocation) {
+            binding.buttonStartLocation.apply {
+                text = getString(R.string.stop_location_request)
+                setOnClickListener {
+                    myLocationManager.stopLocationUpdates()
+                }
+            }
+        } else {
+            binding.buttonStartLocation.apply {
+                text = getString(R.string.start_location_request)
+                setOnClickListener {
+                    myLocationManager.startLocationUpdates()
+                }
+            }
+        }
+
+    }
+
+    private fun handleAndroidPermissions() {
+        permissionsRequestor = PermissionsRequestor(this)
+        permissionsRequestor.request(object : ResultListener {
+            override fun permissionsGranted() {
+                updateStartOrStopButtonState(startLocation)
+            }
+
+            override fun permissionsDenied() {
+                Log.e(TAG, "Permissions denied by user.")
+            }
+        })
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionsRequestor.onRequestPermissionsResult(requestCode, grantResults)
+    }
 
     companion object {
 
